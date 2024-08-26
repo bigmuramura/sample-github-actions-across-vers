@@ -1,0 +1,31 @@
+name: Data Sharing Example
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  example-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1 - Set and export variable
+        run: |
+          export STEP1_MESSAGE="Hello from Step 1"
+          echo "STEP1_MESSAGE is set to: $STEP1_MESSAGE"
+
+      - name: Step 2 - Try to access exported variable
+        run: |
+          echo "Trying to access STEP1_MESSAGE: $STEP1_MESSAGE"
+          echo "As you can see, STEP1_MESSAGE is not accessible in this step"
+
+      - name: Step 3 - Share data using GITHUB_OUTPUT
+        id: share
+        env:
+          STEP1_MESSAGE: "Hello from Step 1"
+        run: |
+          echo "step1_value=$STEP1_MESSAGE" >> $GITHUB_OUTPUT
+          echo "Data shared using GITHUB_OUTPUT"
+
+      - name: Step 4 - Access shared data
+        run: |
+          echo "Accessing shared data: ${{ steps.share.outputs.step1_value }}"
