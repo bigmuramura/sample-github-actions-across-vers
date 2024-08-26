@@ -1,1 +1,1 @@
-# sample-github-actions-across-vers
+ステップ間での変数受け渡しテスト
